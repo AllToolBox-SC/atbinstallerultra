@@ -14,7 +14,6 @@
 // Windows Header Files
 #include <windows.h>
 #undef GetCurrentTime
-#include <pathcch.h>
 #include <unknwn.h>
 
 // WinRT Header Files
@@ -36,3 +35,4 @@
 #include <tchar.h>
 
 // Reference additional headers your project requires here
+#include <Pathcch.h>

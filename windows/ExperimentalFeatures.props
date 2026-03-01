@@ -2,26 +2,33 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup Label="Microsoft.ReactNative Experimental Features">
-    <!--
-      Required for building a New Architecture project.
-
-      App projects should not change this value.
-
-      See https://microsoft.github.io/react-native-windows/docs/new-architecture
-    -->
     <RnwNewArch>true</RnwNewArch>
-
-    <!--
-      Changes compilation to assume use of Microsoft.ReactNative NuGet packages
-      instead of building the framework from source. Defaults to true.
-
-      This is set during app project creation and should not be changed.
-
-      See https://microsoft.github.io/react-native-windows/docs/nuget
-    -->
     <UseExperimentalNuget>true</UseExperimentalNuget>
-
     <ReactExperimentalFeaturesSet>true</ReactExperimentalFeaturesSet>
   </PropertyGroup>
+
+  <!-- 
+    根本修复：根据平台动态设置 WindowsAppSDK 库路径
+    这是 Microsoft.WindowsAppSDK 1.7.x 的已知问题
+  -->
+  <PropertyGroup>
+    <_WinAppSDKPlatform Condition="'$(Platform)' == 'Win32'">x64</_WinAppSDKPlatform>
+    <_WinAppSDKPlatform Condition="'$(Platform)' == 'x64'">x64</_WinAppSDKPlatform>
+    <_WinAppSDKPlatform Condition="'$(Platform)' == 'ARM64'">arm64</_WinAppSDKPlatform>
+    <_WinAppSDKPlatform Condition="'$(Platform)' == 'ARM64EC'">arm64ec</_WinAppSDKPlatform>
+    <_WinAppSDKPlatform Condition="'$(_WinAppSDKPlatform)' == ''">x64</_WinAppSDKPlatform>
+  </PropertyGroup>
+
+  <!-- 覆盖 WindowsAppSDK 的 targets 中使用的路径 -->
+  <PropertyGroup>
+    <_WindowsAppSDKFoundationLibPath>$(NuGetPackageRoot)microsoft.windowsappsdk\1.7.250401001\lib\win10-$(_WinAppSDKPlatform)\</_WindowsAppSDKFoundationLibPath>
+  </PropertyGroup>
+
+  <!-- 在链接前修正库目录 -->
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalLibraryDirectories>$(_WindowsAppSDKFoundationLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
 
 </Project>

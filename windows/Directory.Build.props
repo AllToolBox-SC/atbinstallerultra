@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--
+    根本修复 Microsoft.WindowsAppSDK 1.7.x 路径问题
+    此文件在解决方案级别导入，优先于所有其他 props 文件
+  -->
+
+  <PropertyGroup>
+    <!-- 根据当前构建平台动态设置正确的路径 -->
+    <_WinAppSDKPlatform Condition="'$(Platform)' == 'Win32'">x86</_WinAppSDKPlatform>
+    <_WinAppSDKPlatform Condition="'$(Platform)' == 'x64'">x64</_WinAppSDKPlatform>
+    <_WinAppSDKPlatform Condition="'$(Platform)' == 'ARM64'">arm64</_WinAppSDKPlatform>
+    <_WinAppSDKPlatform Condition="'$(Platform)' == 'ARM64EC'">arm64ec</_WinAppSDKPlatform>
+
+    <!-- 强制设置正确的库目录路径 -->
+    <WindowsAppSDKFoundationLibPath>$(NuGetPackageRoot)microsoft.windowsappsdk\1.7.250401001\lib\win10-$(_WinAppSDKPlatform)\</WindowsAppSDKFoundationLibPath>
+  </PropertyGroup>
+
+  <!-- 在链接前修正 AdditionalLibraryDirectories -->
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalLibraryDirectories>$(NuGetPackageRoot)microsoft.windowsappsdk\1.7.250401001\lib\win10-$(_WinAppSDKPlatform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <!-- 
+    修复项目引用平台传递问题
+    确保依赖项目使用正确的平台配置
+  -->
+  <ItemDefinitionGroup>
+    <ProjectReference>
+      <SetPlatform>$(Platform)</SetPlatform>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+
+</Project>
