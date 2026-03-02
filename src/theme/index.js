@@ -18,7 +18,7 @@ export const globalStyles = StyleSheet.create({
       outlineColor: 'transparent',
     }),
   },
-  // 按钮样式 - 移除所有边框和阴影（包括 Windows 焦点边框）
+  // 按钮样式 - 移除所有边框和阴影
   buttonNoOutline: {
     borderWidth: 0,
     borderColor: 'transparent',
@@ -26,15 +26,9 @@ export const globalStyles = StyleSheet.create({
     outlineColor: 'transparent',
     elevation: 0,
     shadowColor: 'transparent',
-    ...(isWindows && {
-      focusable: false,
-    }),
   },
   // 通用无焦点边框样式
   noFocusBorder: {
-    ...(isWindows && {
-      focusable: false,
-    }),
     borderWidth: 0,
     borderColor: 'transparent',
     outlineWidth: 0,

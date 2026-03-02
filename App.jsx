@@ -14,23 +14,24 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './src/screens/HomeScreen';
+import { CustomDarkTheme, CustomLightTheme } from './src/theme';
 
 const Stack = createStackNavigator();
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
-  const theme = isDarkMode ? MD3DarkTheme : MD3LightTheme;
+  const theme = isDarkMode ? CustomDarkTheme : CustomLightTheme;
 
   // 简单的 Navigation 主题适配
   const LightTheme = {
     ...MD3LightTheme,
     colors: {
       ...MD3LightTheme.colors,
-      background: MD3LightTheme.colors.background,
-      border: MD3LightTheme.colors.outline,
-      text: MD3LightTheme.colors.onSurface,
-      primary: MD3LightTheme.colors.primary,
-      notification: MD3LightTheme.colors.primary,
+      background: CustomLightTheme.colors.background,
+      border: CustomLightTheme.colors.outline,
+      text: CustomLightTheme.colors.onSurface,
+      primary: CustomLightTheme.colors.primary,
+      notification: CustomLightTheme.colors.primary,
     },
   };
 
@@ -38,11 +39,11 @@ function App() {
     ...MD3DarkTheme,
     colors: {
       ...MD3DarkTheme.colors,
-      background: MD3DarkTheme.colors.background,
-      border: MD3DarkTheme.colors.outline,
-      text: MD3DarkTheme.colors.onSurface,
-      primary: MD3DarkTheme.colors.primary,
-      notification: MD3DarkTheme.colors.primary,
+      background: CustomDarkTheme.colors.background,
+      border: CustomDarkTheme.colors.outline,
+      text: CustomDarkTheme.colors.onSurface,
+      primary: CustomDarkTheme.colors.primary,
+      notification: CustomDarkTheme.colors.primary,
     },
   };
 

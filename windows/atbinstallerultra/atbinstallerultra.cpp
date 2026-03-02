@@ -78,5 +78,6 @@ _Use_decl_annotations_ int CALLBACK WinMain(HINSTANCE instance, HINSTANCE, PSTR 
   viewOptions.ComponentName(L"atbinstallerultra");
 
   // Start the app
+  
   reactNativeWin32App.Start();
 }
